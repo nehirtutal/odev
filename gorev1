@@ -1,0 +1,20 @@
+#ogrenci isimlerini aldigimiz fonksiyon
+def ogrenci_ekle():
+    with open("ogrenciler.txt", "a") as dosya:
+        while True:
+            isim = input("Öğrenci ismi giriniz (Çıkmak için 'bitti' yazın): ")
+            if isim.lower() == "bitti":
+                break
+            dosya.write(isim + "\n")
+
+#ogrencileri listelemek icin olusturdugumuz fonksiyon
+def ogrenci_listele():
+    try:
+        with open("ogrenciler.txt", "r") as dosya:
+            print("Dosyadaki Öğrenci İsimleri:")
+            print(dosya.read())
+    except FileNotFoundError:
+        print("Dosya bulunamadı. Önce öğrenci ekleyin.")
+
+ogrenci_ekle()   # Öğrenci isimlerini eklemek için
+ogrenci_listele() # Öğrencileri listelemek için
