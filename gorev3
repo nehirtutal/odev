@@ -1,0 +1,55 @@
+#json formatında olmasını istediğimiz için
+import json
+import os
+
+def kullanici_ekle(ad, soyad, yas):
+    # Olan kullanıcıları dosyadan yüklüyoruz 
+    kullanicilar = []
+    if os.path.exists("kullanicilar.json"):
+        with open("kullanicilar.json", "r") as dosya:
+            try:
+                kullanicilar = json.load(dosya)
+            except json.JSONDecodeError:
+                kullanicilar = []
+    
+    # Yeni kullanıcıların bilgilerini eklemek için
+    yeni_kullanici = {"ad": ad, "soyad": soyad, "yas": yas}
+    kullanicilar.append(yeni_kullanici)
+    
+    # Güncellenen kullanıcı listesini dosyaya yazıyoruz
+    with open("kullanicilar.json", "w") as dosya:
+        json.dump(kullanicilar, dosya, indent=4)
+    print("Kullanıcı bilgisi kaydedildi.\n")
+
+def kullanicilari_listele():
+    if os.path.exists("kullanicilar.json"):
+        with open("kullanicilar.json", "r") as dosya:
+            try:
+                kullanicilar = json.load(dosya)
+            except json.JSONDecodeError:
+                kullanicilar = []
+        if kullanicilar:
+            print("\n--- Kayıtlı Kullanıcılar ---")
+            for kullanici in kullanicilar:
+                print(f"Ad: {kullanici['ad']}, Soyad: {kullanici['soyad']}, Yaş: {kullanici['yas']}")
+            print("----------------------------\n")
+        else:
+            print("Henüz kayıtlı kullanıcı bulunmamaktadır.\n")
+    else:
+        print("Henüz kayıtlı kullanıcı bulunmamaktadır.\n")
+
+def main():
+    while True:
+        ad = input("Adınızı giriniz (listele: kayıtları görüntüle, çık: programı sonlandır): ")
+        if ad.lower() == "listele":
+            kullanicilari_listele()
+        elif ad.lower() == "çık":
+            print("Program sonlandırılıyor.")
+            break
+        else:
+            soyad = input("Soyadınızı giriniz: ")
+            yas = input("Yaşınızı giriniz: ")
+            kullanici_ekle(ad, soyad, yas)
+
+if __name__ == "_main_":
+    main()
