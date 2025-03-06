@@ -1,0 +1,29 @@
+import os
+
+def gunluk_programi():
+    while True:
+        not_girdisi = input("Notunuzu giriniz (komutlar: 'goruntule' veya 'sil'): ")
+        
+        if not_girdisi.lower() == "goruntule":
+            if os.path.exists("gunluk.txt"):
+                with open("gunluk.txt", "r") as dosya:
+                    print("\n--- Günlük Notlarınız ---")
+                    print(dosya.read())
+                    print("-------------------------\n")
+            else:
+                print("gunluk.txt dosyası bulunamadı.\n")
+        
+        elif not_girdisi.lower() == "sil":
+            if os.path.exists("gunluk.txt"):
+                os.remove("gunluk.txt")
+                print("gunluk.txt dosyası silindi.\n")
+            else:
+                print("gunluk.txt dosyası zaten mevcut değil.\n")
+        
+        else:
+            with open("gunluk.txt", "a") as dosya:
+                dosya.write(not_girdisi + "\n")
+            print("Notunuz eklendi.\n")
+
+if __name__ == "__main__":
+    gunluk_programi()
