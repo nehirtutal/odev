@@ -1,0 +1,55 @@
+def rehber_programi():
+    print("Program başladı...")  # Program başlatıldığını görmek için
+    while True:
+        komut = input("Komut giriniz (ekle, ara, listele, çık): ").lower()
+        print("Girdiğiniz komut:", komut)  # Hangi komutu girdiğimizi görmek için
+        if komut == "çık":
+            print("Program sonlandırılıyor.")
+            break
+        
+        if komut == "ekle":
+            ad = input("Kişinin adını giriniz: ")
+            telefon = input("Telefon numarasını giriniz: ")
+            # Kayıt eklemek için dosyaya yeni satır olarak ekliyoruz.
+            with open("rehber.txt", "a") as dosya:
+                dosya.write(f"{ad}:{telefon}\n")
+            print("Kayıt eklendi.\n")
+        
+        elif komut == "ara":
+            aranan_ad = input("Aranacak kişinin adını giriniz: ").lower()
+            bulundu = False
+            try:
+                with open("rehber.txt", "r") as dosya:
+                    for satir in dosya:
+                        satir = satir.strip()
+                        if satir:
+                            # Kayıtlar "ad:telefon" formatında saklanıyor.
+                            parcalar = satir.split(":", 1)
+                            if parcalar[0].strip().lower() == aranan_ad:
+                                print(f"{parcalar[0].strip()} adlı kişinin telefon numarası: {parcalar[1].strip()}\n")
+                                bulundu = True
+                                break
+                if not bulundu:
+                    print("Aradığınız isim bulunamadı.\n")
+            except FileNotFoundError:
+                print("Rehber dosyası bulunamadı. Henüz kayıt eklenmemiş olabilir.\n")
+        
+        elif komut == "listele":
+            try:
+                with open("rehber.txt", "r") as dosya:
+                    print("\n--- Rehber ---")
+                    for satir in dosya:
+                        print(satir.strip())
+                    print("--------------\n")
+            except FileNotFoundError:
+                print("Rehber dosyası bulunamadı.\n")
+        
+        elif komut == "çık":
+            print("Program sonlandırılıyor.")
+            break
+        
+        else:
+            print("Geçersiz komut. Lütfen 'ekle', 'ara', 'listele' veya 'çık' komutlarından birini giriniz.\n")
+
+if __name__ == "main":
+    rehber_programi()
